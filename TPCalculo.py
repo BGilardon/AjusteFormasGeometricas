@@ -21,10 +21,8 @@ def armarb(datos):
 
 def cuadradosMinimos(datos):
     A = armarA(datos)
-    print(A)
     At = A.T
     AtA = At@A
-    print(AtA)
 
     b = armarb(datos)
     Atb = At@b
