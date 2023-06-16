@@ -51,9 +51,9 @@ def setDatosCirculares(r,x0,y0,a=100,error=0,N=100):
 # b) datos sobre un circulo completo, con ruido aleatorio
 # c) datos sobre un arco de circunferencia de amplitud 0 < a ≤ 2π, con ruido.
 
-a = setDatosCirculares(1,0,0)
+a = setDatosCirculares(1,0,0, N=150)
 b = setDatosCirculares(1,0,0,100,0.1,150)
-b2 = setDatosCirculares(1,0,0,100,0.5,1500)
+b2 = setDatosCirculares(1,0,0,100,0.5,150)
 c = setDatosCirculares(1,0,0,25,0.1,150)
 
 def compararDatos(datos):
@@ -65,4 +65,4 @@ def compararDatos(datos):
 
     plt.show()
 
-compararDatos(b2)
+compararDatos(a)
