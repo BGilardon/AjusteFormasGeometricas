@@ -4,27 +4,19 @@ import matplotlib.pyplot as plt
 
 plt.figure(figsize=(6, 6))
 
-def armarA(datos):
+
+def cuadradosMinimos(datos):
     A = np.ones((len(datos),3))
 
     for i in range(len(datos)):
         A[i] = [datos[i][0], datos[i][1], 1]
-    
-    return A
 
-def armarb(datos):
-    b = np.ones(len(datos))
-
-    for i in range(len(datos)):
-        b[i] = (datos[i][0])**2 + (datos[i][1])**2
-    return b
-
-def cuadradosMinimos(datos):
-    A = armarA(datos)
     At = A.T
     AtA = At@A
 
-    b = armarb(datos)
+    b = np.ones(len(datos))
+    for i in range(len(datos)):
+        b[i] = (datos[i][0])**2 + (datos[i][1])**2
     Atb = At@b
 
     ABC = np.linalg.solve(AtA,Atb)
