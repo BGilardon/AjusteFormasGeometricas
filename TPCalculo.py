@@ -51,7 +51,7 @@ def setDatosCirculares(r,x0,y0,a=100,error=0,N=100):
 # c) datos sobre un arco de circunferencia de amplitud 0 < a ≤ 2π, con ruido.
 
 a = setDatosCirculares(1,0,0, N=150)
-b = setDatosCirculares(1,0,0,100,0.1,150)
+b = setDatosCirculares(1,0,0,100,0.5,150)
 b2 = setDatosCirculares(1,0,0,100,0.5,150)
 c = setDatosCirculares(1,0,0,25,0.1,150)
 
@@ -64,7 +64,6 @@ def compararDatos(datos):
     plt.plot(acmC[0], acmC[1], '--b')
     plt.scatter(acm[1], acm[2], marker='x', color='black')
 
-    plt.show()
 
 
 # Ejercicio 3. Implementar un programa que reciba como input una funcion f y un punto z
@@ -108,6 +107,31 @@ def hessiano(f,z):
 def vectorInicial(datos):
     v01 = np.sum(datos[:,0])/len(datos[:,0])
     v02 = np.sum(datos[:,1])/len(datos[:,1]) # (v01 , v02 ) es el punto promedio de los datos
-    # v03 es el promedio de las distancias a ese centro.
-    pass
+    distancias = np.zeros(len(datos))
+    for i in range(len(datos)):
+        distancias[i] = ((datos[i,0]-v01)**2 + (datos[i,1]-v02)**2)**(1/2)
+    v03 = np.sum(distancias)/len(distancias) # v03 es el promedio de las distancias a ese centro.
+    
+    return np.array([v01,v02,v03])
 
+def matrizDeCholesky(A):
+    n = len(A)
+    L = np.zeros((n,n))
+    
+    L[0,0] = np.sqrt(A[0,0])
+    
+    for i in range(1,n):
+        L[i,0] = A[i,0]/L[0,0]
+    
+    for j in range (1,n):
+        L[j,j] = np.sqrt(A[j,j] - np.dot(L[j,0:j-1],L[j,0:j-1]))
+        if j < n:
+            for i in range(j+1, n):
+                L[i,j] = (A[i,j] - np.dot(L[i,0:j-1],L[j,0:j-1]))/L[j,j]
+    return L
+
+def g(z):
+    return z[0]*z[1]*z[0]
+A = hessiano(g, [1,2,3])
+L = matrizDeCholesky(A)
+print(A, '\n','\n', L, '\n','\n', L.T, '\n','\n', np.dot(L, (L.T)))
