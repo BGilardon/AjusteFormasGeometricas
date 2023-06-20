@@ -8,12 +8,7 @@ El problema consiste en ajustar una circunferencia a un conjunto de puntos obten
 
 ## Ajuste algebraico
 
-El programa implementa una solución basada en el ajuste algebraico utilizando el método de los mínimos cuadrados. Dado un conjunto de N puntos (xi, yi), el programa encuentra los parámetros (x0, y0, r) que minimizan la siguiente expresión:
-
-```
-PN
-i=1(xiA + yiB + C − (x2i + y2i ))2
-```
+El programa implementa una solución basada en el ajuste algebraico utilizando el método de los mínimos cuadrados. Dado un conjunto de N puntos (xi, yi), el programa encuentra los parámetros (x0, y0, r) que minimizan la suma hasta N de: (xiA + yiB + C − (xi^2 + yi^2 ))2
 
 El programa proporciona los parámetros de la circunferencia ajustada.
 
@@ -35,9 +30,9 @@ El programa implementa el método de Newton para ajuste geométrico. Utiliza las
 
 Se proporcionan diferentes conjuntos de datos generados artificialmente para probar el programa. Estos conjuntos incluyen:
 
-a) Datos sobre un círculo completo sin ruido.
-b) Datos sobre un círculo completo con ruido aleatorio.
-c) Datos sobre un arco de circunferencia de amplitud α, con ruido. Se investiga el comportamiento del ajuste para valores pequeños de α.
+- a) Datos sobre un círculo completo sin ruido.
+- b) Datos sobre un círculo completo con ruido aleatorio.
+- c) Datos sobre un arco de circunferencia de amplitud α, con ruido. Se investiga el comportamiento del ajuste para valores pequeños de α.
 
 El programa se encarga de ajustar la circunferencia a cada conjunto de datos y graficarlos junto con la circunferencia obtenida a partir de ellos.
 
