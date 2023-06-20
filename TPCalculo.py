@@ -3,6 +3,8 @@ import random
 import matplotlib.pyplot as plt
 plt.figure(figsize=(6, 6))
 
+# Ejercicio 1. Escribir un programa que implemente esta idea. Debe recibir una matriz de N
+# pares (xi, yi) y devolver los parametros de la circunferencia.
 
 def cuadradosMinimos(datos):
     A = np.ones((len(datos),3))
@@ -20,7 +22,9 @@ def cuadradosMinimos(datos):
     r = (ConstantesABC[2] + x0**2 + y0**2)**(1/2)
     return (r,x0,y0) 
 
-
+# Ejercicio 2. Para probar el programa podemos simular su aplicacion sobre datos generados
+# artificialmente. Generar conjuntos de datos segun las siguientes pautas y graficarlos junto con
+# el circulo obtenido a partir de ellos:
 def circulo(r,x0,y0,N):
     t = np.linspace(0, 2*np.pi, N)
     x = np.zeros(N)
@@ -63,8 +67,9 @@ def compararDatos(datos):
     plt.show()
 
 
-def g(z):
-    return z[0]*z[1]*z[2]
+# Ejercicio 3. Implementar un programa que reciba como input una funcion f y un punto z
+# y calcule el vector gradiente de f evaluado en z, y un programa que calcule el hessiano de f
+# evaluado en z. Ambos utilizando diferencias forward.
 
 
 # Utilizo h = 10^(-8) para minimizar el error 
@@ -74,7 +79,6 @@ def derivadaParcial(f,z,i,h=10**(-8)):
     zi[i] += h
     Derivada = f(zi)/h - f(z)/h
     return Derivada
-
 
 def gradiente(f, z):
     grad = np.zeros(len(z))
@@ -94,3 +98,16 @@ def hessiano(f,z):
         for j in range(len(z)):
             H[i,j] = dobleDerivada(f,z,i,j)
     return H 
+
+
+
+# Ejercicio 4. Implementar un programa que aplique el metodo de Newton, utilizando los
+# programas del ejercicio anterior para computar el gradiente y el Hessiano y el m´etodo de
+# Cholesky para resolver el sistema.
+
+def vectorInicial(datos):
+    v01 = np.sum(datos[:,0])/len(datos[:,0])
+    v02 = np.sum(datos[:,1])/len(datos[:,1]) # (v01 , v02 ) es el punto promedio de los datos
+    # v03 es el promedio de las distancias a ese centro.
+    pass
+
