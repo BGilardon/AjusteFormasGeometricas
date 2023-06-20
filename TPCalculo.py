@@ -66,24 +66,31 @@ def compararDatos(datos):
 def g(z):
     return z[0]*z[1]*z[2]
 
-def derivadaParcial(f,z,i,h=10**(-8)):
+
+# Utilizo h = 10^(-8) para minimizar el error 
+# (Si el h es mas chico, me epieza a dar datos erroneos por cancelaciones catastroficas)
+def derivadaParcial(f,z,i,h=10**(-8)):  
     zi = z.copy()
     zi[i] += h
-    df = f(zi)/h - f(z)/h
-    return df
-
-print(derivadaParcial(g,[2,2,2],0))
+    Derivada = f(zi)/h - f(z)/h
+    return Derivada
 
 
-def gradiente(f, z, h=10**(-10)):
+def gradiente(f, z):
     grad = np.zeros(len(z))
     for i in range(len(z)):
         grad[i] = derivadaParcial(f,z,i)
     return grad
 
-print(gradiente(g, [2,2,2]))
+def dobleDerivada(f,z,i,j,h=10**(-4)): #Como dentro de la doble derivada ha
+    zj = z.copy()
+    zj[j] = zj[j] + h
+    derivadaDefEnij = derivadaParcial(f,zj,i)/h - derivadaParcial(f,z,i)/h
+    return derivadaDefEnij
 
-
-def hessiano(f,z,h=10**(-10)):
-    pass
-    return 
+def hessiano(f,z):
+    H = np.zeros((len(z),len(z)))
+    for i in range(len(z)):
+        for j in range(len(z)):
+            H[i,j] = dobleDerivada(f,z,i,j)
+    return H 
