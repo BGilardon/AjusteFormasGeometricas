@@ -53,16 +53,16 @@ def setDatosCirculares(r,x0,y0,a=100,error=0,N=100):
 a = setDatosCirculares(1,0,0, N=150)
 b = setDatosCirculares(1,0,0,100,0.5,150)
 b2 = setDatosCirculares(1,0,0,100,0.5,150)
-c = setDatosCirculares(1,0,0,25,0.1,150)
+c = setDatosCirculares(1,0,0,40,0.2,500)
 
 
 
-def compararDatos(datos):
+def compararDatosCuadradosMinimos(datos):
     plt.scatter(datos[:,0], datos[:,1], color='red', s=10)
-    acm = cuadradosMinimos(datos)
-    acmC = circulo(acm[0], acm[1], acm[2], len(datos))
-    plt.plot(acmC[0], acmC[1], '--b')
-    plt.scatter(acm[1], acm[2], marker='x', color='black')
+    ajusteCuadradosMinimos = cuadradosMinimos(datos)
+    circuloCuadradosMinimos = circulo(ajusteCuadradosMinimos[0], ajusteCuadradosMinimos[1], ajusteCuadradosMinimos[2], len(datos))
+    plt.plot(circuloCuadradosMinimos[0], circuloCuadradosMinimos[1], '--b')
+    plt.scatter(ajusteCuadradosMinimos[1], ajusteCuadradosMinimos[2], marker='x', color='black')
 
 
 
@@ -101,7 +101,7 @@ def hessiano(f,z):
 
 
 # Ejercicio 4. Implementar un programa que aplique el metodo de Newton, utilizando los
-# programas del ejercicio anterior para computar el gradiente y el Hessiano y el m´etodo de
+# programas del ejercicio anterior para computar el gradiente y el Hessiano y el metodo de
 # Cholesky para resolver el sistema.
 
 def vectorInicial(datos):
@@ -132,19 +132,70 @@ def matrizDeCholesky(A):
 
 
 def resolverSistemaCholesky(A, b):
-    L = matrizDeCholesky(A)
     n = len(A)
-    
-    # Sustitución hacia adelante (Ly = b)
+    L = matrizDeCholesky(A)
+    # (Ly = b)
     y = np.zeros(n)
     y[0] = b[0] / L[0, 0]
     for i in range(1, n):
         y[i] = (b[i] - np.dot(L[i, :i], y[:i])) / L[i, i]
     
-    # Sustitución hacia atrás (L^T x = y)
+    # (L^T x = y)
     x = np.zeros(n)
     x[n-1] = y[n-1] / L[n-1, n-1]
     for i in range(n-2, -1, -1):
         x[i] = (y[i] - np.dot(L[i+1:, i], x[i+1:])) / L[i, i]
     
     return x
+
+
+A = np.array([[3,1,1],[1,3,1],[1,1,3]])
+b = np.array([1,1,1])
+X = resolverSistemaCholesky(A,b)
+
+
+
+def newton(datos):
+    V0 = vectorInicial(datos)
+    Vs = [V0]
+    err = 10**(-6)
+    def e(C):
+        x0 = C[0]
+        y0 = C[1]
+        r  = C[2]        
+        sum = 0
+        
+        for i in range(len(datos)):
+            sum += abs(np.sqrt((datos[i,0] - x0)**2 + (datos[i,1] - y0)**2) - r)**2
+        
+        return sum
+
+    while True:
+        V1 = Vs[-1]
+        H = hessiano(e, [V1[0], V1[1], V1[2]])
+        Ge = gradiente(e, [V1[0], V1[1], V1[2]])
+        V2 = V1 - resolverSistemaCholesky(H,Ge)
+        Vs.append(V2)
+
+        if np.linalg.norm(V1-V2) < err:
+            break
+    res = Vs[-1]
+
+    x0  = res[0]
+    y0  = res[1]
+    r   = res[2]
+    return (r,x0,y0)
+
+
+def compararDatosNewton(datos):
+    plt.scatter(datos[:,0], datos[:,1], color='red', s=10)
+    ajusteNewton = newton(datos)
+    circuloNewton = circulo(ajusteNewton[0], ajusteNewton[1], ajusteNewton[2], len(datos))
+    plt.plot(circuloNewton[0], circuloNewton[1], '--g')
+    plt.scatter(ajusteNewton[1], ajusteNewton[2], marker='x', color='black')
+
+
+dts = setDatosCirculares(5,1,1,100,0.4,120)
+compararDatosCuadradosMinimos(dts)
+compararDatosNewton(dts)
+plt.show()
