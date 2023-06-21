@@ -124,14 +124,27 @@ def matrizDeCholesky(A):
         L[i,0] = A[i,0]/L[0,0]
     
     for j in range (1,n):
-        L[j,j] = np.sqrt(A[j,j] - np.dot(L[j,0:j-1],L[j,0:j-1]))
+        L[j,j] = np.sqrt(A[j,j] - np.dot(L[j,0:j],L[j,0:j]))
         if j < n:
             for i in range(j+1, n):
-                L[i,j] = (A[i,j] - np.dot(L[i,0:j-1],L[j,0:j-1]))/L[j,j]
+                L[i,j] = (A[i,j] - np.dot(L[i,0:j],L[j,0:j]))/L[j,j]
     return L
 
-def g(z):
-    return z[0]*z[1]*z[0]
-A = hessiano(g, [1,2,3])
-L = matrizDeCholesky(A)
-print(A, '\n','\n', L, '\n','\n', L.T, '\n','\n', np.dot(L, (L.T)))
+
+def resolverSistemaCholesky(A, b):
+    L = matrizDeCholesky(A)
+    n = len(A)
+    
+    # Sustitución hacia adelante (Ly = b)
+    y = np.zeros(n)
+    y[0] = b[0] / L[0, 0]
+    for i in range(1, n):
+        y[i] = (b[i] - np.dot(L[i, :i], y[:i])) / L[i, i]
+    
+    # Sustitución hacia atrás (L^T x = y)
+    x = np.zeros(n)
+    x[n-1] = y[n-1] / L[n-1, n-1]
+    for i in range(n-2, -1, -1):
+        x[i] = (y[i] - np.dot(L[i+1:, i], x[i+1:])) / L[i, i]
+    
+    return x
