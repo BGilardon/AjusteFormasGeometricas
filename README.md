@@ -8,7 +8,7 @@ El problema consiste en ajustar una circunferencia a un conjunto de puntos obten
 
 ## Ajuste algebraico
 
-El programa implementa una solución basada en el ajuste algebraico utilizando el método de los mínimos cuadrados. Dado un conjunto de N puntos (xi, yi), el programa encuentra los parámetros (x0, y0, r) que minimizan la suma hasta N de: (xiA + yiB + C − (xi^2 + yi^2 ))2
+El programa implementa una solución basada en el ajuste algebraico utilizando el método de los mínimos cuadrados. Dado un conjunto de N puntos $(x_i, y_i)$, el programa encuentra los parámetros $(x_0, y_0, r)$ que minimizan la suma $\sum^N_{i=0} (Ax_i + By_i + C − (x_i^2 + y_i^2 ))^2$
 
 El programa proporciona los parámetros de la circunferencia ajustada.
 
@@ -16,7 +16,7 @@ El programa proporciona los parámetros de la circunferencia ajustada.
 
 Además del ajuste algebraico, el programa también ofrece un ajuste geométrico utilizando el método de Newton para minimizar la distancia entre los puntos y la circunferencia ajustada.
 
-Para esto, se implementa la función de distancia εg(x0, y0, r) que representa la distancia cuadrática entre un punto (xi, yi) y la circunferencia de parámetros x0, y0, r. Luego, se aplica el método de Newton para minimizar esta distancia y obtener una mejor aproximación de los parámetros x0, y0, r.
+Para esto, se implementa la función de distancia $\varepsilon_g (x0, y0, r)$ que representa la distancia cuadrática entre un punto $(x_i, y_i)$ y la circunferencia de parámetros $x_0, y_0, r$. Luego, se aplica el método de Newton para minimizar esta distancia y obtener una mejor aproximación de los parámetros $x0, y0, r$.
 
 ## Cálculo del gradiente y el hessiano
 
