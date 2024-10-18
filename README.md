@@ -42,17 +42,5 @@ El programa requiere tener instalado Python y las siguientes bibliotecas adicion
 - NumPy
 - Matplotlib
 
-## Instrucciones de uso
-
-1. Clone este repositorio en su máquina local.
-2. Ejecute el programa `ajuste_geometrico.py` en su entorno de desarrollo de Python.
-3. Los resultados se mostrarán en la consola y se generarán gráficos para cada conjunto de datos en la carpeta de resultados.
-
-Si desea probar con sus propios conjuntos de datos, asegúrese de que estén en el formato adecuado (matriz de pares (xi, yi)) y reemplace los datos de ejemplo en
-
- el código.
-
 ¡Disfrute del ajuste geométrico y algebraico de formas con este proyecto! Si tiene alguna pregunta o sugerencia, no dude en contactarme.
 
----
-*Nota: El código para implementar las soluciones descritas anteriormente se encuentra en los archivos adjuntos.*
